@@ -20,3 +20,5 @@ Admin-Super-Admin/backend/src/main/resources/static/sts-4.24.0.RELEASE/
 Admin-Super-Admin/src/main/resources/static/sts-4.24.0.RELEASE/
 Admin-Super-Admin/backend/uploads/
 Admin-Super-Admin/src/main/resources/static/sts-4.24.0.RELEASE/
+Admin-Super-Admin/backend/src/main/resources/application.properties
+Admin-Super-Admin/src/main/resources/application.properties
