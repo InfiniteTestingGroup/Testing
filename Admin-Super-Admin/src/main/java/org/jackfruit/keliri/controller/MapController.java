@@ -14,40 +14,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-
 @RestController
-	public class MapController {
+public class MapController {
 
-    @Value("${google.maps.api.key}")
-    private String googleMapsApiKey;
-	 @GetMapping("/searchPlaceAjax")
-	    public Map<String, Object> searchPlace(@RequestParam("place") String place) {
-	        try {
-	        //	System.out.println("Place : "+place);
-	            String encoded = URLEncoder.encode(place, StandardCharsets.UTF_8);
-	            String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encoded + "&key=" + googleMapsApiKey;
+	@Value("${google.maps.api.key}")
+	private String googleMapsApiKey;
 
-	            RestTemplate rest = new RestTemplate();
-	            Map response = rest.getForObject(url, Map.class);
+	@GetMapping("/searchPlaceAjax")
+	public Map<String, Object> searchPlace(@RequestParam("place") String place) {
+		try {
+			// System.out.println("Place : "+place);
+			String encoded = URLEncoder.encode(place, StandardCharsets.UTF_8);
+			String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + encoded + "&key="
+					+ googleMapsApiKey;
 
-	            if (!"OK".equals(response.get("status"))) {
-	                return Map.of("status", "NOT_FOUND");
-	            }
+			RestTemplate rest = new RestTemplate();
+			Map response = rest.getForObject(url, Map.class);
 
-	            Map location = (Map) ((Map) ((Map)
-	                    ((List) response.get("results")).get(0))
-	                    .get("geometry")).get("location");
+			if (!"OK".equals(response.get("status"))) {
+				return Map.of("status", "NOT_FOUND");
+			}
 
-	            return Map.of(
-	                    "status", "OK",
-	                    "lat", location.get("lat"),
-	                    "lng", location.get("lng")
-	            );
+			Map location = (Map) ((Map) ((Map) ((List) response.get("results")).get(0))
+					.get("geometry")).get("location");
 
-	        } catch (Exception e) {
-	            return Map.of("status", "ERROR", "message", e.getMessage());
-	        }
-	    }
+			return Map.of(
+					"status", "OK",
+					"lat", location.get("lat"),
+					"lng", location.get("lng"));
 
+		} catch (Exception e) {
+			return Map.of("status", "ERROR", "message", e.getMessage());
+		}
+	}
 
 }

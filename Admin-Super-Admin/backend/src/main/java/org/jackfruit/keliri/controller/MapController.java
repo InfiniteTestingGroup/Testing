@@ -4,7 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class MapController {
-
-    @Value("${google.maps.api.key}")
-    private String googleMapsApiKey;
 
 	@Value("${google.maps.api.key}")
 	private String googleMapsApiKey;
