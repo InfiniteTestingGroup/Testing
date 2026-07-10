@@ -1,0 +1,663 @@
+{
+  "api_info": {
+    "name": "Mobilize API",
+    "version": "v1",
+    "base_url": "http://localhost:3000/v1",
+    "description": "Complete API endpoints for Mobilize platform"
+  },
+  "endpoints": {
+    "user": {
+      "path": "/user",
+      "description": "User Management APIs",
+      "routes": [
+        {
+          "method": "GET",
+          "endpoint": "/import",
+          "auth": "none",
+          "purpose": "Import users data (admin function)"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/login",
+          "auth": "none",
+          "purpose": "User login with email/phone and password or OTP"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/verify-otp",
+          "auth": "none",
+          "purpose": "Verify OTP for login/registration"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/resend-otp",
+          "auth": "none",
+          "purpose": "Resend OTP to user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/me",
+          "auth": "JWT",
+          "purpose": "Get current authenticated user profile"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update",
+          "auth": "JWT + UserGuard",
+          "purpose": "Complete/update current user profile"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/invite",
+          "auth": "JWT",
+          "purpose": "Invite new users"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Update specific user by admin"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:userType",
+          "auth": "JWT",
+          "purpose": "Get all active users of specific type (PUBLISHER/CONSUMER/ADMIN)"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/reset-password",
+          "auth": "JWT",
+          "purpose": "Reset/change password for current user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/forgot-password/:email",
+          "auth": "none",
+          "purpose": "Send forgot password link/OTP to email"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/profile/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update user profile details by admin"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/create/:userType",
+          "auth": "JWT",
+          "purpose": "Create new user (PUBLISHER/CONSUMER/ADMIN)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/uid/:uid",
+          "auth": "JWT",
+          "purpose": "Get specific user details by UID with location"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/count/dashboard",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get dashboard count statistics"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/following/ads",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get ads from users being followed"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/microservice/auth",
+          "auth": "none",
+          "purpose": "Microservice authentication"
+        }
+      ]
+    },
+    "company": {
+      "path": "/company",
+      "description": "Company Management APIs",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "",
+          "auth": "JWT",
+          "purpose": "Create new company"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update company details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:companyType",
+          "auth": "JWT + UserGuard",
+          "purpose": "List companies by type with filters"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/all/list",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get all companies list"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/uid/:uid",
+          "auth": "JWT",
+          "purpose": "Get specific company details by UID"
+        }
+      ]
+    },
+    "roles": {
+      "path": "/roles",
+      "description": "Roles and Access Management",
+      "routes": [
+        {
+          "method": "GET",
+          "endpoint": "/import",
+          "auth": "none",
+          "purpose": "Import default roles data"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/roles/list",
+          "auth": "JWT",
+          "purpose": "List all available roles"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/create",
+          "auth": "JWT",
+          "purpose": "Create new role"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update role details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:uid",
+          "auth": "JWT",
+          "purpose": "Get role details by UID"
+        }
+      ]
+    },
+    "masters": {
+      "path": "/masters",
+      "description": "Master Data Management",
+      "routes": [
+        {
+          "method": "GET",
+          "endpoint": "/import",
+          "auth": "none",
+          "purpose": "Import all default master data"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/modules/list",
+          "auth": "none",
+          "purpose": "List all available modules"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/accesses/list",
+          "auth": "none",
+          "purpose": "List all access types"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/ad-types/list",
+          "auth": "none",
+          "purpose": "List all ad types"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/ad-types/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update ad type details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/ad-cta/list",
+          "auth": "none",
+          "purpose": "List all CTA options"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/ad-cta/:uid",
+          "auth": "JWT",
+          "purpose": "Get CTA details by UID"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/ad-cta/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update CTA details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/import",
+          "auth": "none",
+          "purpose": "Import product categories"
+        },
+        {
+          "method": "POST",
+          "endpoint": "",
+          "auth": "JWT",
+          "purpose": "Create new product category"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/all",
+          "auth": "JWT",
+          "purpose": "Get all product categories"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:parentUid",
+          "auth": "JWT",
+          "purpose": "Get subcategories by parent UID"
+        },
+        {
+          "method": "DELETE",
+          "endpoint": "/:uid",
+          "auth": "JWT",
+          "purpose": "Delete/disable product category"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/:uid",
+          "auth": "JWT",
+          "purpose": "Update product category"
+        }
+      ]
+    },
+    "media": {
+      "path": "/media",
+      "description": "Media Management",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/upload",
+          "auth": "JWT",
+          "purpose": "Upload file/image (multipart/form-data)"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/uids",
+          "auth": "JWT",
+          "purpose": "Get media details by list of UIDs"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/urls/uids",
+          "auth": "JWT",
+          "purpose": "Get only media URLs by list of UIDs"
+        }
+      ]
+    },
+    "user-profile": {
+      "path": "/user-profile",
+      "description": "User Profile Management",
+      "routes": [
+        {
+          "method": "PUT",
+          "endpoint": "/me",
+          "auth": "JWT",
+          "purpose": "Update my profile/preferences"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/preference-ads",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get timeline with ad preferences"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/microservice/auth",
+          "auth": "none",
+          "purpose": "Microservice auth for user profile"
+        }
+      ]
+    },
+    "advertisements": {
+      "path": "/advertisements",
+      "description": "Advertisements Management",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/create",
+          "auth": "JWT",
+          "purpose": "Create new advertisement"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update/:uid",
+          "auth": "JWT",
+          "purpose": "Update existing advertisement"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/copy-ad/:uid",
+          "auth": "JWT",
+          "purpose": "Copy advertisement template"
+        },
+        {
+          "method": "GET",
+          "endpoint": "",
+          "auth": "JWT + UserGuard",
+          "purpose": "List all ads for current user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:uid",
+          "auth": "JWT",
+          "purpose": "Get specific ad details by UID"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/user/me",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get ads published by current user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/user-uid/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get ads published by specific user (admin view)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/push-test/abcd",
+          "auth": "none",
+          "purpose": "Test push notification"
+        }
+      ]
+    },
+    "ad-campaigns": {
+      "path": "/ad-campaigns",
+      "description": "Ad Campaigns Management",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/create",
+          "auth": "JWT",
+          "purpose": "Create new ad campaign"
+        },
+        {
+          "method": "PUT",
+          "endpoint": "/update/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Update campaign details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "",
+          "auth": "JWT + UserGuard",
+          "purpose": "List all campaigns for user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/status/:campaignStatus",
+          "auth": "JWT + UserGuard",
+          "purpose": "List campaigns by status (ACTIVE/PAUSED/COMPLETED)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/:uid",
+          "auth": "JWT",
+          "purpose": "Get campaign details by UID"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/count/dateRange",
+          "auth": "JWT",
+          "purpose": "Get analytics for date range"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/user/me",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get campaigns created by current user"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/user-uid/:uid",
+          "auth": "JWT",
+          "purpose": "Get campaigns by specific user (admin view)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/following-user-campaigns/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get campaigns from followed users"
+        }
+      ]
+    },
+    "search": {
+      "path": "/search",
+      "description": "Search APIs",
+      "routes": [
+        {
+          "method": "GET",
+          "endpoint": "/category/:keyword",
+          "auth": "JWT",
+          "purpose": "Search product categories by keyword"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/comapny/:keyword",
+          "auth": "JWT",
+          "purpose": "Search companies by keyword"
+        },
+        {
+          "method": "POST",
+          "endpoint": "",
+          "auth": "JWT + UserGuard",
+          "purpose": "Search all companies and publishers"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/filters",
+          "auth": "JWT + UserGuard",
+          "purpose": "Search with advanced filters"
+        }
+      ]
+    },
+    "mapping-user-ads": {
+      "path": "/mapping-user-ads",
+      "description": "Saved Ads Management",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/save",
+          "auth": "JWT",
+          "purpose": "Save/bookmark advertisement"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/saved-list",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get list of all saved ads"
+        }
+      ]
+    },
+    "mapping-user": {
+      "path": "/mapping-user",
+      "description": "Following Management APIs",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/follow",
+          "auth": "JWT",
+          "purpose": "Follow publisher/company"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/followings/:entityType",
+          "auth": "JWT",
+          "purpose": "List followed entities (PUBLISHER/COMPANY)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/statistics/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get publisher statistics"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/check-following/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Check if following specific user/company"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/following-users-campaigns",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get campaigns from following users"
+        }
+      ]
+    },
+    "user-publishing": {
+      "path": "/user-publishing",
+      "description": "User Publishing Transaction APIs",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/:limit",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get txn publishings with limit (paginated ads)"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/seen-status/:uid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Mark ad as seen/viewed"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/action/click-cta",
+          "auth": "JWT + UserGuard",
+          "purpose": "Track CTA button clicks"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/count/unread",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get count of unread/unseen publishings"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/view-count/publishing-view-count",
+          "auth": "JWT + UserGuard",
+          "purpose": "Create/track publishing view count"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/camapign-reached-count/:campaignUid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get reached count for campaign"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/txn-publishing-uid/:txnPublishingUid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get specific txn publishing details"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/analytics/:publishingUid",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get analytics for campaign publishing"
+        }
+      ]
+    },
+    "notification-subscription": {
+      "path": "/notification-subscripton",
+      "description": "Notification Subscription APIs",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "",
+          "auth": "JWT + UserGuard",
+          "purpose": "Create/register notification subscription (FCM token)"
+        }
+      ]
+    },
+    "banners": {
+      "path": "/banners",
+      "description": "Banners Management",
+      "routes": [
+        {
+          "method": "POST",
+          "endpoint": "/import",
+          "auth": "JWT + UserGuard",
+          "purpose": "Import banner data"
+        },
+        {
+          "method": "POST",
+          "endpoint": "/create",
+          "auth": "JWT + UserGuard",
+          "purpose": "Create new banner"
+        },
+        {
+          "method": "GET",
+          "endpoint": "/list",
+          "auth": "JWT + UserGuard",
+          "purpose": "Get all banners list"
+        }
+      ]
+    },
+    "queue-control": {
+      "path": "/queue-control",
+      "description": "Queue Control APIs",
+      "routes": [
+        {
+          "method": "GET",
+          "endpoint": "/delete-reschedule",
+          "auth": "JWT + UserGuard",
+          "purpose": "Clear Redis cache and reschedule all jobs"
+        }
+      ]
+    }
+  },
+  "authentication": {
+    "jwt": {
+      "header": "Authorization",
+      "format": "Bearer <token>",
+      "payload": {
+        "uid": "user-unique-id",
+        "_id": "mongodb-id"
+      }
+    },
+    "guards": {
+      "JwtGuard": "Validates JWT token",
+      "UserGuard": "Validates user type/permissions"
+    }
+  },
+  "user_types": [
+    "PUBLISHER",
+    "CONSUMER",
+    "ADMIN"
+  ],
+  "campaign_statuses": [
+    "ACTIVE",
+    "PAUSED",
+    "COMPLETED"
+  ],
+  "entity_types": [
+    "PUBLISHER",
+    "COMPANY"
+  ],
+  "device_types": [
+    "ANDROID",
+    "IOS",
+    "WEB"
+  ],
+  "total_endpoints": 86,
+  "modules": 15
+}
