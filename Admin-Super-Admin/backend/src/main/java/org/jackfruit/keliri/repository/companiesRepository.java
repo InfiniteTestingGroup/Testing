@@ -15,6 +15,7 @@ public interface companiesRepository extends MongoRepository<companies,String>{
 	 companies findBycustomId(String id);
 	 
 	 List<companies> findByAdminId(String adminId);
+	 long countByAdminId(String adminId);
 	 Optional<companies> findByEmail(String email);
 	 Optional<companies> findByMobile(String mobile);
 	 

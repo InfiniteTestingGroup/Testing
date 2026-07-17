@@ -102,6 +102,22 @@ function mapAd(ad: any): AdvertisementRecord {
       : null
   )
 
+  // Determine the status – if end date has passed, override based on current state:
+  //  • Active  → Completed  (campaign ran its course)
+  //  • Pending → Expired    (never approved, can no longer run)
+  let status = normalizeStatus(resolveRawStatus(ad))
+  const endDate = ad.endDate ?? null
+  if (endDate && endDate !== 'N/A') {
+    const endTime = new Date(endDate)
+    if (!isNaN(endTime.getTime()) && endTime.getTime() < Date.now()) {
+      if (status === 'Active') {
+        status = 'Completed'
+      } else if (status === 'Pending') {
+        status = 'Expired'
+      }
+    }
+  }
+
   return {
     id: ad.id ?? ad._id ?? '',
     title: ad.title ?? 'Untitled Campaign',
@@ -113,7 +129,7 @@ function mapAd(ad: any): AdvertisementRecord {
     publisherName: ad.publisherName ?? 'Publisher Network',
     createdDate: ad.createdDate ?? '',
     createdAt: ad.createdAt ?? null,
-    status: normalizeStatus(resolveRawStatus(ad)),
+    status,
     impressions,
     clicks,
     ctr,

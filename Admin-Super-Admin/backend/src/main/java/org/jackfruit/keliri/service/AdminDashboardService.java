@@ -3,7 +3,7 @@ package org.jackfruit.keliri.service;
 import org.jackfruit.keliri.model.AdminDashboardResponse;
 import org.jackfruit.keliri.model.ad_campaigns;
 import org.jackfruit.keliri.model.hitRecord;
-import org.jackfruit.keliri.repository.PublisherRepository;
+import org.jackfruit.keliri.repository.companiesRepository;
 import org.jackfruit.keliri.repository.ad_campaignsRepository;
 import org.jackfruit.keliri.repository.hitRecordRepository;
 import org.jackfruit.keliri.repository.usersRepository;
@@ -29,7 +29,7 @@ public class AdminDashboardService {
     private hitRecordRepository hitRecordRepository;
 
     @Autowired
-    private PublisherRepository publisherRepository;
+    private companiesRepository companyRepository;
 
     @Autowired
     private usersRepository usersRepository;
@@ -128,7 +128,7 @@ public class AdminDashboardService {
                              (c.getDateRange() != null && c.getDateRange().getToDate() != null && c.getDateRange().getToDate().before(now)))
                 .count();
         long totalCampaigns = campaigns.size();
-        long totalPublishers = publisherRepository.countByAdminId(adminId);
+        long totalPublishers = companyRepository.countByAdminId(adminId);
         
         // Sum the actual payment transactions with status "SUCCESS" for this admin
         Query paymentQuery = new Query(Criteria.where("adminId").is(adminId).and("status").is("SUCCESS"));

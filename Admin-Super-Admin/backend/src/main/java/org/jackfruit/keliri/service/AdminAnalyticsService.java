@@ -1,11 +1,11 @@
 package org.jackfruit.keliri.service;
 
 import org.jackfruit.keliri.model.AdminAnalyticsResponse;
-import org.jackfruit.keliri.model.Publisher;
+import org.jackfruit.keliri.model.companies;
 import org.jackfruit.keliri.model.ad_campaigns;
 import org.jackfruit.keliri.model.hitRecord;
 import org.jackfruit.keliri.model.location;
-import org.jackfruit.keliri.repository.PublisherRepository;
+import org.jackfruit.keliri.repository.companiesRepository;
 import org.jackfruit.keliri.repository.ad_campaignsRepository;
 import org.jackfruit.keliri.repository.hitRecordRepository;
 import org.jackfruit.keliri.repository.txn_user_locationsRepository;
@@ -27,7 +27,7 @@ public class AdminAnalyticsService {
     private ad_campaignsRepository campaignsRepository;
 
     @Autowired
-    private PublisherRepository publisherRepository;
+    private companiesRepository companyRepository;
 
     @Autowired
     private hitRecordRepository hitRecordRepository;
@@ -56,7 +56,7 @@ public class AdminAnalyticsService {
         String companyId = (adminUser != null) ? adminUser.getCompanyUID() : null;
 
         List<ad_campaigns> campaigns;
-        List<Publisher> adminPublishers;
+        List<companies> adminPublishers;
 
         if (companyId != null && !companyId.trim().isEmpty()) {
             org.bson.types.ObjectId companyObjectId = new org.bson.types.ObjectId(companyId);
@@ -76,14 +76,14 @@ public class AdminAnalyticsService {
             if (!companyAdminIds.isEmpty()) {
                 org.springframework.data.mongodb.core.query.Query pubQuery = new org.springframework.data.mongodb.core.query.Query(
                         org.springframework.data.mongodb.core.query.Criteria.where("adminId").in(companyAdminIds));
-                adminPublishers = mongoTemplate.find(pubQuery, Publisher.class);
+                adminPublishers = mongoTemplate.find(pubQuery, companies.class);
             } else {
                 adminPublishers = Collections.emptyList();
             }
         } else {
             // Fallback to searching only by adminId
             campaigns = campaignsRepository.findByCreatedByObjectId(new org.bson.types.ObjectId(adminId));
-            adminPublishers = publisherRepository.findByAdminId(adminId);
+            adminPublishers = companyRepository.findByAdminId(adminId);
         }
 
         // Apply filters to campaigns
@@ -114,7 +114,7 @@ public class AdminAnalyticsService {
         
         if (publisherId != null && !publisherId.equalsIgnoreCase("All")) {
             // If filtering by publisher, we attribute hits to the nearest publisher and keep only those for the selected publisher
-            Optional<Publisher> targetPublisher = adminPublishers.stream().filter(p -> p.getId().equals(publisherId)).findFirst();
+            Optional<companies> targetPublisher = adminPublishers.stream().filter(p -> p.getId().equals(publisherId)).findFirst();
             if (targetPublisher.isPresent()) {
                 hits = filterHitsByPublisher(hits, targetPublisher.get());
             } else {
@@ -158,7 +158,7 @@ public class AdminAnalyticsService {
         return response;
     }
 
-    private List<hitRecord> filterHitsByPublisher(List<hitRecord> hits, Publisher publisher) {
+    private List<hitRecord> filterHitsByPublisher(List<hitRecord> hits, companies publisher) {
         if (publisher.getLocation() == null || publisher.getLocation().trim().isEmpty()) return hits;
         
         String[] coords = publisher.getLocation().split(",");
@@ -243,7 +243,7 @@ public class AdminAnalyticsService {
                 .collect(Collectors.toList());
     }
 
-    private List<AdminAnalyticsResponse.BreakdownItem> buildPublisherBreakdown(List<hitRecord> hits, List<Publisher> publishers) {
+    private List<AdminAnalyticsResponse.BreakdownItem> buildPublisherBreakdown(List<hitRecord> hits, List<companies> publishers) {
         Map<String, Long> clicksByPublisher = new HashMap<>();
         long totalClicks = 0;
 
@@ -251,7 +251,7 @@ public class AdminAnalyticsService {
             if ("AD_CLICK".equalsIgnoreCase(h.getEventType())) {
                 totalClicks++;
                 // Attribute to nearest publisher
-                Publisher nearest = findNearestPublisher(h, publishers);
+                companies nearest = findNearestPublisher(h, publishers);
                 if (nearest != null) {
                     clicksByPublisher.merge(nearest.getName(), 1L, Long::sum);
                 } else {
@@ -273,16 +273,16 @@ public class AdminAnalyticsService {
                 .collect(Collectors.toList());
     }
 
-    private Publisher findNearestPublisher(hitRecord hit, List<Publisher> publishers) {
+    private companies findNearestPublisher(hitRecord hit, List<companies> publishers) {
         if (hit.getLatitude() == null || hit.getLongitude() == null) return null;
         try {
             double hLat = Double.parseDouble(hit.getLatitude());
             double hLng = Double.parseDouble(hit.getLongitude());
             
-            Publisher nearest = null;
+            companies nearest = null;
             double minDist = 5.0; // max attribute radius 5km
 
-            for (Publisher p : publishers) {
+            for (companies p : publishers) {
                 if (p.getLocation() == null || p.getLocation().trim().isEmpty()) continue;
                 String[] coords = p.getLocation().split(",");
                 if (coords.length < 2) continue;
